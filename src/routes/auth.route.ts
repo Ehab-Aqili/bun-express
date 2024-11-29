@@ -1,6 +1,6 @@
 import express from "express";
 import { Login, Signup } from "../controllers/user.controller";
-import { validateData } from "../middleware/validation.middleware";
+import { validateData } from "../middleware/zod.middleware";
 import {
   LoginValidation,
   SignupValidation,

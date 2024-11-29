@@ -1,4 +1,4 @@
-import { StatusCodes } from "../enums/status-code.enum";
+import { StatusCodes } from "../enums/status_code.enum";
 import Users from "../models/user.model";
 import type {
   LoginReqType,
@@ -6,6 +6,7 @@ import type {
   SignupReqType,
   SignupResType,
 } from "../types/auth.types";
+import { ErrorHandler } from "../utils/error_handler";
 
 export const Signup = async (req: SignupReqType, res: SignupResType) => {
   try {
@@ -23,11 +24,8 @@ export const Signup = async (req: SignupReqType, res: SignupResType) => {
       });
     }
   } catch (error) {
-    console.error("Error Signup", error);
-    return res.status(StatusCodes.INTERNAL_SERVER).json({
-      message: "Server Error",
-      error,
-    });
+    const errorRes = ErrorHandler(error)
+    return res.status(errorRes.status).json(errorRes.response);
   }
 };
 
@@ -45,11 +43,8 @@ export const Login = async (req: LoginReqType, res: LoginResType) => {
         isMatch,
       });
     }
-  } catch (e) {
-    console.error("Error Login", e);
-    return res.status(StatusCodes.INTERNAL_SERVER).json({
-      error: "Server Error",
-      details: e,
-    });
+  } catch (error) {
+    const errorRes = ErrorHandler(error)
+    return res.status(errorRes.status).json(errorRes.response);
   }
 };
